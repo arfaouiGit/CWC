@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWC System Dynamics Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            background: white;
+            color: #000;
+            padding: 40px 20px;
+            line-height: 1.4;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .diagram-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .diagram-subtitle {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .main-diagram {
+            width: 100%;
+            height: 800px;
+            border: 2px solid #000;
+            position: relative;
+            background: #fafafa;
+            margin-bottom: 30px;
+        }
+        
+        .layer {
+            position: absolute;
+            border: 1px solid #333;
+            background: rgba(255,255,255,0.9);
+        }
+        
+        .data-layer {
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: 120px;
+            background: #e8f4f8;
+        }
+        
+        .processing-layer {
+            top: 160px;
+            left: 20px;
+            right: 20px;
+            height: 200px;
+            background: #f0f8e8;
+        }
+        
+        .integration-layer {
+            top: 380px;
+            left: 20px;
+            right: 20px;
+            height: 120px;
+            background: #f8f0e8;
+        }
+        
+        .output-layer {
+            top: 520px;
+            left: 20px;
+            right: 20px;
+            height: 100px;
+            background: #f8e8e8;
+        }
+        
+        .feedback-layer {
+            top: 640px;
+            left: 20px;
+            right: 20px;
+            height: 80px;
+            background: #f0e8f8;
+        }
+        
+        .layer-title {
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .data-source {
+            position: absolute;
+            width: 140px;
+            height: 60px;
+            border: 1px solid #2c5aa0;
+            background: #e1ecf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 9px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .component-box {
+            position: absolute;
+            width: 200px;
+            height: 80px;
+            border: 2px solid #2d5016;
+            background: #f0f8e8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 10px;
+            border-radius: 8px;
+        }
+        
+        .component-title {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+        
+        .component-weight {
+            font-size: 14px;
+            font-weight: bold;
+            color: #d73502;
+        }
+        
+        .formula-box {
+            position: absolute;
+            width: 300px;
+            height: 80px;
+            border: 3px solid #8b4513;
+            background: #fff5ee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 20px;
+        }
+        
+        .output-box {
+            position: absolute;
+            width: 250px;
+            height: 60px;
+            border: 2px solid #8b0000;
+            background: #ffe4e1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 20px;
+        }
+        
+        .feedback-box {
+            position: absolute;
+            width: 200px;
+            height: 40px;
+            border: 1px solid #4b0082;
+            background: #f3e5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 9px;
+            border-radius: 5px;
+        }
+        
+        .arrow {
+            position: absolute;
+            stroke: #333;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .flow-arrow {
+            stroke: #666;
+            stroke-width: 1.5;
+            stroke-dasharray: 3,3;
+        }
+        
+        .feedback-arrow {
+            stroke: #8b0082;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+        
+        .legend {
+            margin-top: 20px;
+            border: 1px solid #000;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        
+        .legend-title {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border: 1px solid #000;
+        }
+        
+        .equations-panel {
+            margin-top: 20px;
+            border: 1px solid #000;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        
+        .equations-title {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .equation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            font-size: 10px;
+        }
+        
+        .equation-box {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .equation-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2d5016;
+        }
+        
+        .equation-formula {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 5px;
+            border-radius: 3px;
+            margin: 3px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="diagram-title">Figure 2: Cyberwar Clock System Dynamics and Data Flow Architecture</h2>
+        <p class="diagram-subtitle">Conceptual framework showing the integration of multi-source intelligence feeds into the CWCS composite risk metric</p>
+        
+        <div class="main-diagram">
+            <!-- SVG for arrows -->
+            <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                            refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                    </marker>
+                    <marker id="feedback-arrow" markerWidth="10" markerHeight="7" 
+                            refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#8b0082" />
+                    </marker>
+                </defs>
+                
+                <!-- Data to Processing arrows -->
+                <line x1="90" y1="140" x2="120" y2="180" class="arrow" />
+                <line x1="240" y1="140" x2="240" y2="180" class="arrow" />
+                <line x1="390" y1="140" x2="360" y2="180" class="arrow" />
+                <line x1="540" y1="140" x2="480" y2="180" class="arrow" />
+                <line x1="690" y1="140" x2="600" y2="180" class="arrow" />
+                <line x1="840" y1="140" x2="720" y2="180" class="arrow" />
+                <line x1="990" y1="140" x2="840" y2="180" class="arrow" />
+                
+                <!-- Processing to Integration arrows -->
+                <line x1="120" y1="260" x2="240" y2="400" class="arrow" />
+                <line x1="320" y1="260" x2="360" y2="400" class="arrow" />
+                <line x1="520" y1="260" x2="480" y2="400" class="arrow" />
+                <line x1="720" y1="260" x2="600" y2="400" class="arrow" />
+                
+                <!-- Integration to Output arrow -->
+                <line x1="440" y1="480" x2="440" y2="540" class="arrow" stroke-width="3" />
+                
+                <!-- Feedback arrows -->
+                <line x1="200" y1="660" x2="120" y2="340" class="feedback-arrow" marker-end="url(#feedback-arrow)" />
+                <line x1="400" y1="660" x2="320" y2="340" class="feedback-arrow" marker-end="url(#feedback-arrow)" />
+                <line x1="600" y1="660" x2="520" y2="340" class="feedback-arrow" marker-end="url(#feedback-arrow)" />
+                <line x1="800" y1="660" x2="720" y2="340" class="feedback-arrow" marker-end="url(#feedback-arrow)" />
+                
+                <!-- Temporal flow arrow -->
+                <line x1="50" y1="400" x2="50" y2="660" class="flow-arrow" />
+            </svg>
+            
+            <!-- Data Sources Layer -->
+            <div class="layer data-layer">
+                <div class="layer-title">Layer 1: Multi-Source Intelligence Feeds</div>
+                <div class="data-source" style="top: 30px; left: 20px;">MITRE ATT&CK<br/>Threat Intel</div>
+                <div class="data-source" style="top: 30px; left: 170px;">Microsoft/CrowdStrike<br/>AI Metrics</div>
+                <div class="data-source" style="top: 30px; left: 320px;">NIST/Patent<br/>Tech Indicators</div>
+                <div class="data-source" style="top: 30px; left: 470px;">SIPRI/NATO<br/>Geopolitical</div>
+                <div class="data-source" style="top: 30px; left: 620px;">UN OEWG<br/>Diplomacy</div>
+                <div class="data-source" style="top: 30px; left: 770px;">CISA/ICS-CERT<br/>Infrastructure</div>
+                <div class="data-source" style="top: 30px; left: 920px;">Chainalysis<br/>Crypto Crime</div>
+            </div>
+            
+            <!-- Processing Layer -->
+            <div class="layer processing-layer">
+                <div class="layer-title">Layer 2: Component Processing & Normalization</div>
+                <div class="component-box" style="top: 20px; left: 20px;">
+                    <div class="component-title">Threat Evolution Score</div>
+                    <div class="component-weight">α = 0.40</div>
+                    <div style="font-size: 8px;">Sophistication × Impact ÷ Defenses<br/>Temporal weighting (λ=0.15)</div>
+                </div>
+                <div class="component-box" style="top: 20px; left: 240px;">
+                    <div class="component-title">Technology Acceleration</div>
+                    <div class="component-weight">β = 0.30</div>
+                    <div style="font-size: 8px;">AI + Quantum + Autonomous<br/>Malware + IoT + Deepfake</div>
+                </div>
+                <div class="component-box" style="top: 20px; left: 460px;">
+                    <div class="component-title">Geopolitical Tension</div>
+                    <div class="component-weight">γ = 0.20</div>
+                    <div style="font-size: 8px;">Arms Race + Sanctions<br/>+ Military Posture + Treaties</div>
+                </div>
+                <div class="component-box" style="top: 20px; left: 680px;">
+                    <div class="component-title">Defensive Countermeasures</div>
+                    <div class="component-weight">δ = -0.10</div>
+                    <div style="font-size: 8px;">PQC + AI Defense<br/>+ Diplomacy + Infrastructure</div>
+                </div>
+                
+                <div style="position: absolute; bottom: 10px; left: 20px; font-size: 9px; font-style: italic;">
+                    All metrics normalized to [0,10] scale via min-max normalization
+                </div>
+            </div>
+            
+            <!-- Integration Layer -->
+            <div class="layer integration-layer">
+                <div class="layer-title">Layer 3: Weighted Integration & Risk Synthesis</div>
+                <div class="formula-box">
+                    <div style="font-size: 18px; margin-bottom: 5px;">CWCS = αTES + βTAF + γGTI - δDCI</div>
+                    <div style="font-size: 12px;">Delphi-weighted composite (n=42, κ=0.81)</div>
+                </div>
+            </div>
+            
+            <!-- Output Layer -->
+            <div class="layer output-layer">
+                <div class="layer-title">Layer 4: Risk Interpretation & Decision Support</div>
+                <div class="output-box">
+                    <div style="font-size: 14px; margin-bottom: 5px;">Cyberwar Clock Score → Time Mapping</div>
+                    <div style="font-size: 10px;">Latent (11PM-1AM) | Emerging (2AM-5AM) | Active (6AM-9AM) | Critical (10AM-12PM)</div>
+                </div>
+            </div>
+            
+            <!-- Feedback Layer -->
+            <div class="layer feedback-layer">
+                <div class="layer-title">Layer 5: Adaptive Feedback & Model Calibration</div>
+                <div class="feedback-box" style="top: 20px; left: 50px;">Threat Pattern<br/>Recognition</div>
+                <div class="feedback-box" style="top: 20px; left: 270px;">Defensive Efficacy<br/>Assessment</div>
+                <div class="feedback-box" style="top: 20px; left: 490px;">Geopolitical<br/>Trend Analysis</div>
+                <div class="feedback-box" style="top: 20px; left: 710px;">Technology Impact<br/>Evaluation</div>
+            </div>
+            
+            <!-- Temporal indicator -->
+            <div style="position: absolute; left: 10px; top: 350px; writing-mode: vertical-lr; font-size: 10px; font-weight: bold; color: #666;">
+                TEMPORAL FLOW<br/>↓
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-title">Legend & System Properties</div>
+            <div class="legend-grid">
+                <div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e8f4f8;"></div>
+                        <span>Data Collection Layer</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f0f8e8;"></div>
+                        <span>Processing & Normalization</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f8f0e8;"></div>
+                        <span>Integration & Synthesis</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f8e8e8;"></div>
+                        <span>Output & Interpretation</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f0e8f8;"></div>
+                        <span>Adaptive Feedback Loop</span>
+                    </div>
+                    <div class="legend-item">
+                        <div style="width: 15px; height: 2px; background: #333; margin-right: 5px;"></div>
+                        <span>Data Flow (Forward)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div style="width: 15px; height: 2px; background: #8b0082; margin-right: 5px; border-top: 2px dashed #8b0082;"></div>
+                        <span>Feedback Loop (Adaptive)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div style="width: 15px; height: 2px; background: #666; margin-right: 5px; border-top: 2px dashed #666;"></div>
+                        <span>Temporal Progression</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="equations-panel">
+            <div class="equations-title">Key Mathematical Formulations</div>
+            <div class="equation-grid">
+                <div class="equation-box">
+                    <div class="equation-title">Threat Evolution Score (TES)</div>
+                    <div class="equation-formula">S_t = 0.6×(MITRE) + 0.4×(Zero-days)</div>
+                    <div class="equation-formula">I_t = ln(1+Economic) + 0.3×(Downtime)</div>
+                    <div class="equation-formula">D_t = 1 + (Detection × Patch_Rate)</div>
+                </div>
+                <div class="equation-box">
+                    <div class="equation-title">Technology Acceleration Factor (TAF)</div>
+                    <div class="equation-formula">AI_net = (Offensive_AI - Defensive_AI)/2</div>
+                    <div class="equation-formula">QRisk = 0.6×Q_Prob + 0.4×Harvest_Rate</div>
+                    <div class="equation-formula">AMalware = Gen4_Index × Propagation</div>
+                </div>
+                <div class="equation-box">
+                    <div class="equation-title">Geopolitical Tension Index (GTI)</div>
+                    <div class="equation-formula">ArmsRace = Budgets × Demonstrations</div>
+                    <div class="equation-formula">Sanctions = Count × Severity_Multiplier</div>
+                    <div class="equation-formula">NonState = √(Ransomware_$M) + Hacktivist_Ops</div>
+                </div>
+                <div class="equation-box">
+                    <div class="equation-title">Defensive Countermeasures (DCI)</div>
+                    <div class="equation-formula">PQC = NIST_Adoption × (1-Legacy_Ratio)</div>
+                    <div class="equation-formula">AI_Def = SOC_Adoption × (1-False_Positive)</div>
+                    <div class="equation-formula">Diplomacy = Ratified_Norms + 0.5×Ongoing</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
