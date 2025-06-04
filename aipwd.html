@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Cyberwar Clock Framework</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e8e8e8;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .framework {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .input-layer {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .ai-core {
+            background: rgba(78, 205, 196, 0.1);
+            border: 2px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .output-layer {
+            background: rgba(69, 183, 209, 0.1);
+            border: 2px solid #45b7d1;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .layer-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .index-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .index-box:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tes { border-left-color: #ff9a9e; }
+        .gti { border-left-color: #fad0c4; }
+        .cdcs { border-left-color: #a8edea; }
+        .taf { border-left-color: #d299c2; }
+        .dci { border-left-color: #89f7fe; }
+        
+        .index-title {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .index-desc {
+            font-size: 0.9em;
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        .ai-models {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .model-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+        
+        .model-name {
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 5px;
+        }
+        
+        .model-use {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+        
+        .data-flow {
+            position: absolute;
+            top: 50%;
+            left: -15px;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4ecdc4, transparent);
+            animation: pulse 2s infinite;
+        }
+        
+        .data-flow.right {
+            left: auto;
+            right: -15px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .clock-viz {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .clock-face {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #45b7d1;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            position: relative;
+            background: radial-gradient(circle, rgba(69, 183, 209, 0.1) 0%, transparent 70%);
+        }
+        
+        .clock-hand {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3px;
+            height: 60px;
+            background: #ff6b6b;
+            transform-origin: bottom center;
+            transform: translate(-50%, -100%) rotate(45deg);
+            border-radius: 2px;
+        }
+        
+        .risk-levels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .risk-level {
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            text-align: center;
+        }
+        
+        .latent { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .emerging { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .active { background: rgba(230, 126, 34, 0.2); color: #e67e22; }
+        .critical { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        
+        .workflow {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .workflow-title {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+        
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        
+        .step-desc {
+            font-size: 0.9em;
+            color: #ccc;
+            line-height: 1.3;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            color: #4ecdc4;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 1200px) {
+            .framework {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .step:nth-child(2)::after,
+            .step:nth-child(4)::after {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .step::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI-Powered Cyberwar Clock Framework</h1>
+            <p>Dynamic Forecasting of Cyber Conflict Escalation (2025-2036)</p>
+        </div>
+        
+        <div class="framework">
+            <!-- Input Layer -->
+            <div class="input-layer">
+                <div class="layer-title">Data Input Layer</div>
+                
+                <div class="index-box tes">
+                    <div class="index-title">Threat Evolution Score (TES)</div>
+                    <div class="index-desc">Sophistication, impact, and defensive capabilities with temporal weighting</div>
+                </div>
+                
+                <div class="index-box gti">
+                    <div class="index-title">Geopolitical Tension Index (GTI)</div>
+                    <div class="index-desc">Arms race, sanctions, military posture, treaties, and non-state activity</div>
+                </div>
+                
+                <div class="index-box cdcs">
+                    <div class="index-title">Cross-Domain Coupling Score (CDCS)</div>
+                    <div class="index-desc">Interdependencies between cyber and physical domains</div>
+                </div>
+                
+                <div class="index-box taf">
+                    <div class="index-title">Technology Acceleration Factor (TAF)</div>
+                    <div class="index-desc">AI, quantum computing, autonomous malware, and deepfake risks</div>
+                </div>
+                
+                <div class="index-box dci">
+                    <div class="index-title">Defensive Countermeasure Index (DCI)</div>
+                    <div class="index-desc">Post-quantum crypto, AI defenses, diplomacy, and infrastructure hardening</div>
+                </div>
+            </div>
+            
+            <!-- AI Core -->
+            <div class="ai-core">
+                <div class="data-flow"></div>
+                <div class="data-flow right"></div>
+                
+                <div class="layer-title">AI Forecasting Engine</div>
+                
+                <div class="ai-models">
+                    <div class="model-box">
+                        <div class="model-name">XGBoost</div>
+                        <div class="model-use">Pattern Recognition</div>
+                    </div>
+                    <div class="model-box">
+                        <div class="model-name">LSTM</div>
+                        <div class="model-use">Time Series Analysis</div>
+                    </div>
+                    <div class="model-box">
+                        <div class="model-name">Temporal Fusion</div>
+                        <div class="model-use">Multi-horizon Forecasting</div>
+                    </div>
+                    <div class="model-box">
+                        <div class="model-name">Ensemble Methods</div>
+                        <div class="model-use">Robust Predictions</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px;">
+                    <strong>Data Sources:</strong><br>
+                    <span style="font-size: 0.9em; color: #ccc;">
+                        MITRE ATT&CK • SIPRI • NIST • Threat Intelligence<br>
+                        Historical Incidents • Real-time Feeds
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Output Layer -->
+            <div class="output-layer">
+                <div class="layer-title">Output & Visualization</div>
+                
+                <div class="clock-viz">
+                    <div class="clock-face">
+                        <div class="clock-hand"></div>
+                    </div>
+                    <strong>Cyberwar Clock Score</strong>
+                    <div style="font-size: 0.9em; color: #ccc; margin-top: 5px;">
+                        Current Risk: 6.2/10<br>
+                        Time to Midnight: 3.8 hours
+                    </div>
+                </div>
+                
+                <div class="risk-levels">
+                    <div class="risk-level latent">Latent (0-2.5)</div>
+                    <div class="risk-level emerging">Emerging (2.6-5.0)</div>
+                    <div class="risk-level active">Active (5.1-7.5)</div>
+                    <div class="risk-level critical">Critical (7.6-10)</div>
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 0.9em;">
+                    <strong>Scenario Outputs:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px; color: #ccc;">
+                        <li>12-month forecasts</li>
+                        <li>Multi-scenario analysis</li>
+                        <li>Policy recommendations</li>
+                        <li>Early warning alerts</li>
+                        <li>Uncertainty quantification</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workflow">
+            <div class="workflow-title">AI-Powered Forecasting Workflow</div>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Data Ingestion</div>
+                    <div class="step-desc">Real-time collection from multiple intelligence sources and historical databases</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Feature Engineering</div>
+                    <div class="step-desc">Transform raw data into predictive indices using domain expertise</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">AI Training & Validation</div>
+                    <div class="step-desc">Ensemble modeling with cross-validation on historical escalation patterns</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Scenario Forecasting</div>
+                    <div class="step-desc">Generate probabilistic predictions with uncertainty bounds and policy insights</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
